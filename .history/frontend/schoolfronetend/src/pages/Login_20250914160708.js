@@ -1,0 +1,107 @@
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+
+function Login() {
+      const navigate = useNavigate();
+
+    const [form,setForm] = useState({
+  username: "",
+  password: "",
+
+    })
+
+    const [message, setMessage] = useState("");
+
+
+    const handleChange=(e)=>{
+        setForm({...form,[e.target.name]:e.target.value})
+    }
+
+    const handleSubmit= async(e)=>{
+        e.preventDefault()
+        try {
+            const res = await fetch ("http://127.0.0.1:8000/auth/",{
+                method:"POST",
+                headers: {
+            "Content-Type": "application/json",
+            },
+            body:JSON.stringify(form)
+            }) 
+
+            if (!res.ok) throw new Error("Invalid credentials");
+
+           const data = await res.json();  
+           localStorage.setItem("token", data.token);
+
+                  
+            
+           
+         setMessage("✅ Logged in successfully!");
+         navigate("/")
+        } catch (error) {
+         setMessage(error.message);
+        }
+    }
+
+  return (
+    <div className='min-h-screen flex flex-col md:flex-row'>
+          {/* form */}
+
+       <div className='flex-1 flex items-center justify-center bg-gray-50 p-8'>
+        
+        <div className='w-full max-w-md bg-white shadow-lg rounded-lg p-6'>
+
+         <h3 className=" mb-6 text-center">
+            Login
+        </h3>
+
+        <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
+
+      <input
+  type="username"
+  name="username"
+  placeholder="username"
+  value={form.email}
+  onChange={handleChange}
+   className="border p-3 rounded focus:ring focus:ring-blue-300"
+              required
+/>
+
+         <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={form.password}
+              onChange={handleChange}
+              className="border p-3 rounded focus:ring focus:ring-blue-300"
+              required
+        />    
+
+         <button
+              type="submit"
+              className="text-white py-3 rounded-lg"
+            >
+              Login
+            </button>
+
+        </form>
+
+        {message && (
+            <p className='mt-4 text-center text-gray-700'>{message}</p>
+        )}
+
+        </div>
+        
+        </div>  
+
+        <div className='flex-1 hidden md:flex'>
+        
+        <img className='w-full h-full object-cover' src='/welcome.png'/>
+        </div> 
+
+          
+    </div>
+  )
+}
+
+export default Login

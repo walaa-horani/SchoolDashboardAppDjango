@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+   font-family: "Sansita", sans-serif;
+  
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+nav ul li a{
+  font-size: 18px;
+}
+
+
+h3{
+  position: relative;
+  font-size: 35px;
+ 
+  color: #C45B7D;
+
+
+}
+
+h3::before{
+  content: "";
+  position: absolute;
+  height: 4px;
+  width: 100%;
+  background: #e09db2;
+  bottom: 0px;
+  left: 0;
+
+}

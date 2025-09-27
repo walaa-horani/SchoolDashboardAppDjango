@@ -1,0 +1,70 @@
+import React, { useEffect, useState } from 'react'
+
+function Grades() {
+
+    const [grades, setGrades] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+
+    useEffect(()=>{
+        setLoading(true)
+        fetch("http://127.0.0.1:8000/grades/")
+        .then((res)=> res.json())
+        .then((data)=>{
+            setGrades(data)
+            setLoading(false)
+        })
+         .catch((err) => console.error("Error fetching grades:", err))
+    },[])
+  return (
+    <div className='max-w-7xl mx-auto mt-10'>
+       
+
+<div class="relative overflow-x-auto">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Student
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Subject
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Mark
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Grade Level
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {grades?.map((grade)=> (
+         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                   {grade?.student?.name}
+                </th>
+                <td class="px-6 py-4">
+                    {grade?.subject?.name}
+                </td>
+                <td class="px-6 py-4">
+                    {grade?.mark}
+                </td>
+                <td class="px-6 py-4">
+                    $2999
+                </td>
+            </tr>   
+            ))}
+          
+       
+            
+        </tbody>
+    </table>
+</div>
+ 
+    </div>
+  )
+}
+
+export default Grades
